@@ -210,7 +210,9 @@ namespace EventNotifier
 
             Log(data.key);
 
-            string monster = data.key.Split('.')[1].Split('.')[0].Replace("Dragon_Head_Leader", "Rock_Dragon");
+            string monster = data.key.Split('.')[1].Split('.')[0]
+                .Replace("Dragon_Head_Leader", "Rock_Dragon")
+                .Replace("shtrs_Defense-System", "Avatar");
             if ((data.key.Contains("killed") || data.key.Contains("death"))
                 && Settings.Default.showOnDeath)
             {
