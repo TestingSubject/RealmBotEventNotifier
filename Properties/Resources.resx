@@ -136,6 +136,24 @@
   <data name="Cube_GodX" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cube_GodX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Cyclops_God" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cyclops_God.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cyclops_GodX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cyclops_GodX .png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ent_Ancient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ent_Ancient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ent_AncientX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ent_AncientX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ghost_King" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ghost_King.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ghost_KingX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ghost_KingX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Ghost_Ship" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ghost_Ship.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -154,8 +172,8 @@
   <data name="Hermit_GodX" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hermit_GodX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="KrazyShank" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\KrazyShank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Kronks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Kronks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Lich" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Lich.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,11 +187,35 @@
   <data name="Lord_of_the_Lost_LandsX" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Lord_of_the_Lost_LandsX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Oasis_Giant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Oasis_Giant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oasis_GiantX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Oasis_GiantX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Pentaract" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pentaract.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PentaractX" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PentaractX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Phoenix_Lord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Phoenix_Lord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Phoenix_LordX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Phoenix_LordX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Red_Demon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Red_Demon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Red_DemonX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Red_DemonX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rock_Dragon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rock_Dragon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rock_DragonX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rock_DragonX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Skull_Shrine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Skull_Shrine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

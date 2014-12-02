@@ -12,6 +12,9 @@ using System.Net;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Media;
 
 namespace EventNotifier
 {
@@ -19,9 +22,9 @@ namespace EventNotifier
     {
         bool loading = true;
 
-        string[] lastEvents = { "['null','null','null','null','null'],", "['null','null','null','null','null'],", "['null','null','null','null','null']," };
+        List<double> knownEvents = new List<double>();
 
-        Thread worker;
+        Thread _worker;
 
         public frmMain()
         {
@@ -29,8 +32,10 @@ namespace EventNotifier
 
             chkShowOnDeath.Checked = Settings.Default.showOnDeath;
             chkShowOnSpawn.Checked = Settings.Default.showOnSpawn;
+            chkShowOnCount.Checked = Settings.Default.showOnCount;
             chkSoundDeath.Checked = Settings.Default.playSoundDeath;
             chkSoundSpawn.Checked = Settings.Default.playSoundSpawn;
+            chkShowOnCount.Checked = Settings.Default.soundOnCount;
 
             chkSkullShrine.Checked = Settings.Default.showSkullShrine;
             chkCubeGod.Checked = Settings.Default.showCubeGod;
@@ -42,6 +47,13 @@ namespace EventNotifier
             chkCrystal.Checked = Settings.Default.showCrystal;
             chkGhostShip.Checked = Settings.Default.showGhostShip;
             chkLastLich.Checked = Settings.Default.showLastLich;
+            chkRedDemon.Checked = Settings.Default.showRedDemon;
+            chkEntAncient.Checked = Settings.Default.showEntAncient;
+            chkGhostKing.Checked = Settings.Default.showGhostKing;
+            chkCyclopsGod.Checked = Settings.Default.showCyclopsGod;
+            chkOasisGiant.Checked = Settings.Default.showOasisGiant;
+            chkPhoenixLord.Checked = Settings.Default.showPhoenixLord;
+            chkRockDragon.Checked = Settings.Default.showRockDragon;
 
             chkAsiaEast.Checked = Settings.Default.showAsiaEast;
             chkAsiaSouthEast.Checked = Settings.Default.showAsiaSouthEast;
@@ -65,31 +77,53 @@ namespace EventNotifier
 
             tbxDuration.Text = Settings.Default.duration.ToString();
 
-            worker = new Thread(Update);
-            worker.IsBackground = true;
-            worker.Start();
+            _worker = new Thread(Fetch);
+            _worker.IsBackground = true;
+            _worker.Start();
 
             loading = false;
         }
 
-        private void Update()
+        private void Fetch()
         {
+            Log("Welcome!");
             WebClient wc = new WebClient();
 
             while (!this.Disposing)
             {
-                string[] events = wc.DownloadString("http://realmbay.com/data.txt").Split('\n');
-                    try
-                    {
-                        string[] eventData1 = events[0].Replace("[", "").Replace("]", "").Replace("'", "").Split(',').Skip(1).ToArray();
+                try
+                {
+                    string[] events = wc.DownloadString("http://realmbot.xyz/data.json").Split('\n');
 
-                        if (lastEvents[0] != events[0])
+                    foreach (string e in events)
+                    {
+                        if (e.Length < 10)
+                            continue;
+
+                        JEvent data = JsonConvert.DeserializeObject<JEvent>(e);
+                        if (e.Contains("tokens"))
                         {
-                            ShowUpdate(eventData1[0], eventData1[1], eventData1[2], eventData1[3], 0);
-                            lastEvents[0] = events[0];
+                            string tokenData = e.Split(new string[] { "\"tokens\":" }, StringSplitOptions.None)[1];
+                            tokenData = "[" + tokenData.Remove(tokenData.Length - 1) + "]";
+                            JArray tokens = JArray.Parse(tokenData);
+
+                            foreach (JObject o in tokens.Children<JObject>())
+                                foreach (JProperty p in o.Properties())
+                                    data.tokens[p.Name] = p.Value.ToString();
+                        }
+
+                        if (!knownEvents.Contains(data.time))
+                        {
+                            knownEvents.Add(data.time);
+                            ShowUpdate(data);
                         }
                     }
-                    catch { }
+                }
+                catch
+                {
+                    Interface.ShowNotification("Connection failed!", "We couldn't connect to\nRealmBot. Waiting a bit...", false, "Kronks");
+                    Thread.Sleep(15000);
+                }
 
                 Thread.Sleep(1000);
             }
@@ -101,8 +135,10 @@ namespace EventNotifier
             {
                 Settings.Default.showOnDeath = chkShowOnDeath.Checked;
                 Settings.Default.showOnSpawn = chkShowOnSpawn.Checked;
+                Settings.Default.showOnCount = chkShowOnCount.Checked;
                 Settings.Default.playSoundDeath = chkSoundDeath.Checked;
                 Settings.Default.playSoundSpawn = chkSoundSpawn.Checked;
+                Settings.Default.soundOnCount = chkSoundCount.Checked;
 
                 Settings.Default.showSkullShrine = chkSkullShrine.Checked;
                 Settings.Default.showCubeGod = chkCubeGod.Checked;
@@ -114,6 +150,13 @@ namespace EventNotifier
                 Settings.Default.showGhostShip = chkGhostShip.Checked;
                 Settings.Default.showLordoftheLostLands = chkLordoftheLostLands.Checked;
                 Settings.Default.showLastLich = chkLastLich.Checked;
+                Settings.Default.showRockDragon = chkRockDragon.Checked;
+                Settings.Default.showRedDemon = chkRedDemon.Checked;
+                Settings.Default.showCyclopsGod = chkCyclopsGod.Checked;
+                Settings.Default.showGhostKing = chkGhostKing.Checked;
+                Settings.Default.showOasisGiant = chkOasisGiant.Checked;
+                Settings.Default.showEntAncient = chkEntAncient.Checked;
+                Settings.Default.showPhoenixLord = chkPhoenixLord.Checked;
 
                 Settings.Default.showAsiaEast = chkAsiaEast.Checked;
                 Settings.Default.showAsiaSouthEast = chkAsiaSouthEast.Checked;
@@ -151,7 +194,7 @@ namespace EventNotifier
                 catch
                 {
                     MessageBox.Show("Invalid input. Please enter an integer only.");
-                    Settings.Default.duration = 1500;
+                    Settings.Default.duration = 3500;
                 }
                 finally
                 {
@@ -160,23 +203,88 @@ namespace EventNotifier
             }
         }
 
-        public void ShowUpdate(string monster, string info, string server, string realm, int offset)
+        private void ShowUpdate(JEvent data)
         {
-            if ((info == "Died" && Settings.Default.showOnDeath != true) || (info == "Just Spawned" && Settings.Default.showOnSpawn != true))
+            if (IsServerFiltered(data.server) || IsEventFiltered(data.key))
                 return;
 
-            if ((monster == "Skull_Shrine" && !Settings.Default.showSkullShrine) ||
-                (monster == "Cube_God" && !Settings.Default.showCubeGod) ||
-                (monster == "Pentaract" && !Settings.Default.showPentaract) ||
-                (monster == "Grand_Sphinx" && !Settings.Default.showGrandSphinx) ||
-                (monster == "Avatar" && !Settings.Default.showAvatar) ||
-                (monster == "Hermit_God" && !Settings.Default.showHermit) ||
-                (monster == "Lord_of_the_Lost_Lands" && !Settings.Default.showLordoftheLostLands) ||
-                (monster == "Crystal" && !Settings.Default.showCrystal) ||
-                (monster == "Ghost_Ship" && !Settings.Default.showGhostShip) ||
-                (monster == "Lich" && !Settings.Default.showLastLich))
-                return;
+            Log(data.key);
 
+            string monster = data.key.Split('.')[1].Split('.')[0].Replace("Dragon_Head_Leader", "Rock_Dragon");
+            if ((data.key.Contains("killed") || data.key.Contains("death"))
+                && Settings.Default.showOnDeath)
+            {
+                if (Settings.Default.playSoundDeath)
+                    new SoundPlayer().Play();
+                Interface.ShowNotification(
+                    monster.Replace("_", " "),
+                    "was killed in\n" + data.server + " " + data.realm,
+                    false, monster); //FALSE FOR NOW
+            }
+            else if (data.key.Contains("new") && Settings.Default.showOnSpawn)
+            {
+                if (Settings.Default.playSoundSpawn)
+                    new SoundPlayer().Play();
+                Interface.ShowNotification(
+                    monster.Replace("_", " "),
+                    "has spawned in\n" + data.server + " " + data.realm,
+                    false, monster);
+            }
+            else if (data.key.Contains("many") && Settings.Default.showOnCount)
+            {
+                if (Settings.Default.soundOnCount)
+                    new SoundPlayer().Play();
+                Interface.ShowNotification(
+                    data.tokens["COUNT"] + " " + monster.Replace("_", " ") + "s",
+                    "left in\n" + data.server + " " + data.realm,
+                    false, monster);
+            }
+            else if (data.key.Contains("one") && Settings.Default.showOnCount)
+            {
+                if (Settings.Default.soundOnCount)
+                    new SoundPlayer().Play();
+                Interface.ShowNotification(
+                    "One " + monster.Replace("_", " "),
+                    "left in\n" + data.server + " " + data.realm,
+                    false, monster);
+            }
+        }
+
+        private void Log(string text)
+        {
+            if (!this.Disposing)
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    tbxLog.Text = "[" 
+                        + DateTime.Now.ToShortTimeString() + "] "
+                        + text + "\n" + tbxLog.Text;
+                }));
+        }
+
+        private bool IsEventFiltered(string e)
+        {
+            if ((e == "Skull_Shrine" && !Settings.Default.showSkullShrine) ||
+                (e == "Cube_God" && !Settings.Default.showCubeGod) ||
+                (e == "Pentaract" && !Settings.Default.showPentaract) ||
+                (e == "Grand_Sphinx" && !Settings.Default.showGrandSphinx) ||
+                (e == "Avatar" && !Settings.Default.showAvatar) ||
+                (e == "Hermit_God" && !Settings.Default.showHermit) ||
+                (e == "Lord_of_the_Lost_Lands" && !Settings.Default.showLordoftheLostLands) ||
+                (e == "Ghost_Ship" && !Settings.Default.showGhostShip) ||
+                (e == "Rock_Dragon" && !Settings.Default.showRockDragon) ||
+                (e == "Red_Demon" && !Settings.Default.showRedDemon) ||
+                (e == "Ent_Ancient" && !Settings.Default.showEntAncient) ||
+                (e == "Ghost_King" && !Settings.Default.showGhostKing) ||
+                (e == "Cyclops_God" && !Settings.Default.showCyclopsGod) ||
+                (e == "Oasis_Giant" && !Settings.Default.showOasisGiant) ||
+                (e == "Phoenix_Lord" && !Settings.Default.showPhoenixLord) ||
+                (e == "Lich" && !Settings.Default.showLastLich))
+                return true;
+            return false;
+        }
+
+        private bool IsServerFiltered(string server)
+        {
             if ((server == "AsiaEast" && !Settings.Default.showAsiaEast) ||
                 (server == "AsiaSouthEast" && !Settings.Default.showAsiaSouthEast) ||
                 (server == "EUEast" && !Settings.Default.showEUEast) ||
@@ -195,10 +303,8 @@ namespace EventNotifier
                 (server == "USWest" && !Settings.Default.showUSWest) ||
                 (server == "USWest2" && !Settings.Default.showUSWest2) ||
                 (server == "USWest3" && !Settings.Default.showUSWest3))
-                return;
-
-            Interface.ShowNotification(monster.Replace('_', ' ').Replace("Lich", "Last Lich"), " " + server + "\n " + realm, "has " + info.Replace("Is there", "been found") + ".\nOn " + server + " in " + realm + ".", monster);
-            Console.WriteLine(monster);
+                return true;
+            return false;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -243,6 +349,14 @@ namespace EventNotifier
         private void BTNminimise_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnToggleLog_Click(object sender, EventArgs e)
+        {
+            if (this.Width < 450)
+                this.Width = 700;
+            else
+                this.Width = 430;
         }
     }
 }

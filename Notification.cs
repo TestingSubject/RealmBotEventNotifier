@@ -31,24 +31,18 @@ namespace EventNotifier
             Interface.EndNotification(this);
         }
 
-        public void Notify(string Header, string Location, string Event, string Monster, int Yoffset)
+        public void Notify(string Header, string Location, string Monster, bool x, int Yoffset)
         {
             try
             {
                 this.inUse = true;
 
-                if ((Settings.Default.playSoundDeath && Event.Contains("Died")) || (Settings.Default.playSoundSpawn && Event.Contains("spawned")))
-                {
-                    SoundPlayer player = new SoundPlayer();
-                    player.Play();
-                }
-
                 this.Invoke((MethodInvoker)delegate
                 {
-                    contactPIC.Image = (Bitmap)EventNotifier.Properties.Resources.ResourceManager.GetObject(Monster + (Event.Contains("Died") ? "X" : ""));
+                    contactPIC.Image = 
+                        (Bitmap)EventNotifier.Properties.Resources.ResourceManager.GetObject(Monster + (x ? "X" : ""));
 
                     headerLBL.Text = Header;
-                    //eventLBL.Text = Event;
                     eventLBL.Text = Location;
                     this.TopMost = true;
                     this.Location = new Point(SystemInformation.WorkingArea.Width - 258, SystemInformation.WorkingArea.Height - 75 - Yoffset);
@@ -56,7 +50,7 @@ namespace EventNotifier
                     this.Show();
 
                     Closer.Interval = Settings.Default.duration;
-                    Closer.Start();
+                    Closer.Enabled = true;
                 });
             }
             catch {}

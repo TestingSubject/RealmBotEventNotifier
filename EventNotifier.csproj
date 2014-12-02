@@ -38,8 +38,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +63,7 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface.cs" />
+    <Compile Include="JEvent.cs" />
     <Compile Include="Notification.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +93,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -106,30 +112,42 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Skull_Shrine.png" />
-    <None Include="Resources\Pentaract.png" />
-    <None Include="Resources\Lord_of_the_Lost_Lands.png" />
-    <None Include="Resources\Hermit_God.png" />
-    <None Include="Resources\Grand_Sphinx.png" />
-    <None Include="Resources\Ghost_Ship.png" />
-    <None Include="Resources\Cube_God.png" />
-    <None Include="Resources\Avatar.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="event-icon.ico" />
+    <None Include="Resources\Skull_ShrineX.png" />
+    <None Include="Resources\Skull_Shrine.png" />
+    <None Include="Resources\Rock_DragonX.png" />
+    <None Include="Resources\Rock_Dragon.png" />
+    <None Include="Resources\Red_DemonX.png" />
+    <None Include="Resources\Red_Demon.png" />
+    <None Include="Resources\Phoenix_LordX.png" />
+    <None Include="Resources\Phoenix_Lord.png" />
+    <None Include="Resources\PentaractX.png" />
+    <None Include="Resources\Pentaract.png" />
+    <None Include="Resources\Oasis_GiantX.png" />
+    <None Include="Resources\Oasis_Giant.png" />
+    <None Include="Resources\Lord_of_the_Lost_LandsX.png" />
+    <None Include="Resources\Lord_of_the_Lost_Lands.png" />
     <None Include="Resources\LichX.png" />
     <None Include="Resources\Lich.png" />
-    <None Include="Resources\PentaractX.png" />
-    <None Include="Resources\Cube_GodX.png" />
+    <None Include="Resources\Kronks.png" />
     <None Include="Resources\Hermit_GodX.png" />
-    <None Include="Resources\Skull_ShrineX.png" />
-    <None Include="Resources\Lord_of_the_Lost_LandsX.png" />
-    <None Include="Resources\Ghost_ShipX.png" />
+    <None Include="Resources\Hermit_God.png" />
     <None Include="Resources\Grand_SphinxX.png" />
+    <None Include="Resources\Grand_Sphinx.png" />
+    <None Include="Resources\Ghost_ShipX.png" />
+    <None Include="Resources\Ghost_Ship.png" />
+    <None Include="Resources\Ghost_KingX.png" />
+    <None Include="Resources\Ghost_King.png" />
+    <None Include="Resources\Ent_AncientX.png" />
+    <None Include="Resources\Ent_Ancient.png" />
+    <None Include="Resources\Cyclops_GodX .png" />
+    <None Include="Resources\Cyclops_God.png" />
+    <None Include="Resources\Cube_GodX.png" />
+    <None Include="Resources\Cube_God.png" />
     <None Include="Resources\CrystalX.png" />
-    <None Include="Resources\AvatarX.png" />
-    <None Include="Resources\KrazyShank.png" />
     <None Include="Resources\Crystal.png" />
+    <None Include="Resources\AvatarX.png" />
+    <None Include="Resources\Avatar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

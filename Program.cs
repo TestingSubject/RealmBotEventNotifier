@@ -25,11 +25,7 @@ namespace EventNotifier
             Interface.n2.CreateHandle();
             Interface.n3.CreateHandle();
 
-            Interface.ShowNotification("Welcome!", "EventNotifier has started.", "EventNotifier has started.", "KrazyShank");
-
-            //Interface.n1.Show();
-            //Interface.n2.Show();
-            //Interface.n3.Show();
+            Interface.ShowNotification("Welcome!", "EventNotifier has started.", false, "Kronks");
 
             Application.Run(new frmMain());
         }

@@ -41,18 +41,27 @@ namespace EventNotifier
         public static Notification n2;
         public static Notification n3;
 
-        public static void ShowNotification(string Header, string Location, string Event, string Monster)
+        public static void ShowNotification(string Header, string Location, bool x, string Monster)
         {
             if (n1.inUse == false)
-                n1.Notify(Header, Location, Event, Monster, offset);
+            {
+                n1.Notify(Header, Location, Monster, x, offset);
+                offset += 75;
+            }
             else if (n2.inUse == false)
-                n2.Notify(Header, Location, Event, Monster, offset);
+            {
+                n2.Notify(Header, Location, Monster, x, offset);
+                offset += 75;
+            }
             else if (n3.inUse == false)
-                n3.Notify(Header, Location, Event, Monster, offset);
+            {
+                n3.Notify(Header, Location, Monster, x, offset);
+                offset += 75;
+            }
             //else
                 //MessageBox.Show("all in use");
 
-            offset += 75;
+            
         }
 
         public static void EndNotification(Notification n)
