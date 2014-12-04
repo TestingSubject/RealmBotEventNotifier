@@ -45,7 +45,7 @@ namespace EventNotifier
                     headerLBL.Text = Header;
                     eventLBL.Text = Location;
                     this.TopMost = true;
-                    this.Location = new Point(SystemInformation.WorkingArea.Width - 258, SystemInformation.WorkingArea.Height - 75 - Yoffset);
+                    this.Location = new Point(SystemInformation.WorkingArea.Width - 280, SystemInformation.WorkingArea.Height - 75 - Yoffset);
                     Animation.AnimateWindow(this.Handle, 150, Animation.AnimateWindowFlags.AW_VER_NEGATIVE);
                     this.Show();
 

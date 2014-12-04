@@ -208,7 +208,7 @@ namespace EventNotifier
             if (IsServerFiltered(data.server) || IsEventFiltered(data.key))
                 return;
 
-            Log(data.key);
+            Log(data.key.Replace("stringlist", "").Replace(".", " ") + " : " + data.server + " - " + data.realm);
 
             string monster = data.key.Split('.')[1].Split('.')[0]
                 .Replace("Dragon_Head_Leader", "Rock_Dragon")
