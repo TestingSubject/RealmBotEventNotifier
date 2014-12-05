@@ -208,11 +208,15 @@ namespace EventNotifier
             if (IsServerFiltered(data.server) || IsEventFiltered(data.key))
                 return;
 
-            Log(data.key.Replace("stringlist", "").Replace(".", " ") + " : " + data.server + " - " + data.realm);
+            Log(data.key.Replace("stringlist", "")
+                .Replace(".", " ")
+                .Replace("0", "")
+                .Replace("1", "") 
+                + " " + data.server + " " + data.realm);
 
             string monster = data.key.Split('.')[1].Split('.')[0]
                 .Replace("Dragon_Head_Leader", "Rock_Dragon")
-                .Replace("shtrs_Defense-System", "Avatar");
+                .Replace("shtrs_Defense_System", "Avatar");
             if ((data.key.Contains("killed") || data.key.Contains("death"))
                 && Settings.Default.showOnDeath)
             {
@@ -257,9 +261,9 @@ namespace EventNotifier
             if (!this.Disposing)
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    tbxLog.Text = "[" 
+                    tbxLog.Text = /*"[" 
                         + DateTime.Now.ToShortTimeString() + "] "
-                        + text + "\n" + tbxLog.Text;
+                        + */text + "\n" + tbxLog.Text;
                 }));
         }
 
