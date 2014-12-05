@@ -88,11 +88,11 @@
             this.chkSoundDeath = new System.Windows.Forms.CheckBox();
             this.chkShowOnSpawn = new System.Windows.Forms.CheckBox();
             this.chkShowOnDeath = new System.Windows.Forms.CheckBox();
-            this.tbxDuration = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.LBLtitle = new System.Windows.Forms.Label();
             this.BTNminimise = new System.Windows.Forms.Label();
             this.BTNclose = new System.Windows.Forms.Label();
+            this.numDuration = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             this.PNLfooter.SuspendLayout();
             this.PNLcontent.SuspendLayout();
@@ -103,6 +103,7 @@
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -852,13 +853,13 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.numDuration);
             this.panel2.Controls.Add(this.chkSoundCount);
             this.panel2.Controls.Add(this.chkShowOnCount);
             this.panel2.Controls.Add(this.chkSoundSpawn);
             this.panel2.Controls.Add(this.chkSoundDeath);
             this.panel2.Controls.Add(this.chkShowOnSpawn);
             this.panel2.Controls.Add(this.chkShowOnDeath);
-            this.panel2.Controls.Add(this.tbxDuration);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Location = new System.Drawing.Point(-2, 40);
             this.panel2.Margin = new System.Windows.Forms.Padding(6);
@@ -950,20 +951,6 @@
             this.chkShowOnDeath.UseVisualStyleBackColor = true;
             this.chkShowOnDeath.CheckedChanged += new System.EventHandler(this.Option_CheckedChanged);
             // 
-            // tbxDuration
-            // 
-            this.tbxDuration.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
-            this.tbxDuration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbxDuration.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxDuration.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.tbxDuration.Location = new System.Drawing.Point(244, 6);
-            this.tbxDuration.Margin = new System.Windows.Forms.Padding(6);
-            this.tbxDuration.Name = "tbxDuration";
-            this.tbxDuration.Size = new System.Drawing.Size(165, 37);
-            this.tbxDuration.TabIndex = 25;
-            this.tbxDuration.Text = "1500";
-            this.tbxDuration.TextChanged += new System.EventHandler(this.tbxDuration_TextChanged);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -972,9 +959,9 @@
             this.label4.Location = new System.Drawing.Point(16, 13);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(439, 30);
+            this.label4.Size = new System.Drawing.Size(261, 30);
             this.label4.TabIndex = 24;
-            this.label4.Text = "Notification lifetime:                                  ms";
+            this.label4.Text = "Notification lifetime (ms): ";
             // 
             // LBLtitle
             // 
@@ -1024,6 +1011,34 @@
             this.BTNclose.MouseLeave += new System.EventHandler(this.LBL_MouseLeave);
             this.BTNclose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LBL_MouseOver);
             // 
+            // numDuration
+            // 
+            this.numDuration.Font = new System.Drawing.Font("Segoe UI", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numDuration.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numDuration.Location = new System.Drawing.Point(292, 11);
+            this.numDuration.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numDuration.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numDuration.Name = "numDuration";
+            this.numDuration.Size = new System.Drawing.Size(175, 35);
+            this.numDuration.TabIndex = 32;
+            this.numDuration.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
@@ -1053,6 +1068,7 @@
             this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDuration)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1069,7 +1085,6 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbxDuration;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkShowOnSpawn;
         private System.Windows.Forms.CheckBox chkShowOnDeath;
@@ -1123,6 +1138,7 @@
         private System.Windows.Forms.CheckBox chkGhostKing;
         private System.Windows.Forms.CheckBox chkEntAncient;
         private System.Windows.Forms.CheckBox chkPhoenixLord;
+        private System.Windows.Forms.NumericUpDown numDuration;
 
 
     }

@@ -75,7 +75,7 @@ namespace EventNotifier
             chkUSWest2.Checked = Settings.Default.showUSWest2;
             chkUSWest3.Checked = Settings.Default.showUSWest3;
 
-            tbxDuration.Text = Settings.Default.duration.ToString();
+            numDuration.Value = Settings.Default.duration;
 
             _worker = new Thread(Fetch);
             _worker.IsBackground = true;
@@ -185,22 +185,8 @@ namespace EventNotifier
 
         private void tbxDuration_TextChanged(object sender, EventArgs e)
         {
-            if (!loading)
-            {
-                try
-                {
-                    Settings.Default.duration = int.Parse(tbxDuration.Text);
-                }
-                catch
-                {
-                    MessageBox.Show("Invalid input. Please enter an integer only.");
-                    Settings.Default.duration = 3500;
-                }
-                finally
-                {
-                    Settings.Default.Save();
-                }
-            }
+            Settings.Default.duration = (int)numDuration.Value;
+            Settings.Default.Save();
         }
 
         private void ShowUpdate(JEvent data)
