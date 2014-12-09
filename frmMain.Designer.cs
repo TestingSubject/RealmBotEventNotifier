@@ -82,6 +82,7 @@
             this.chkSkullShrine = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.numDuration = new System.Windows.Forms.NumericUpDown();
             this.chkSoundCount = new System.Windows.Forms.CheckBox();
             this.chkShowOnCount = new System.Windows.Forms.CheckBox();
             this.chkSoundSpawn = new System.Windows.Forms.CheckBox();
@@ -92,7 +93,6 @@
             this.LBLtitle = new System.Windows.Forms.Label();
             this.BTNminimise = new System.Windows.Forms.Label();
             this.BTNclose = new System.Windows.Forms.Label();
-            this.numDuration = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             this.PNLfooter.SuspendLayout();
             this.PNLcontent.SuspendLayout();
@@ -117,7 +117,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(860, 869);
+            this.panel1.Size = new System.Drawing.Size(740, 869);
             this.panel1.TabIndex = 1;
             // 
             // PNLfooter
@@ -129,7 +129,7 @@
             this.PNLfooter.Location = new System.Drawing.Point(0, 811);
             this.PNLfooter.Margin = new System.Windows.Forms.Padding(6);
             this.PNLfooter.Name = "PNLfooter";
-            this.PNLfooter.Size = new System.Drawing.Size(858, 56);
+            this.PNLfooter.Size = new System.Drawing.Size(738, 56);
             this.PNLfooter.TabIndex = 1;
             // 
             // btnToggleLog
@@ -140,7 +140,7 @@
             this.btnToggleLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnToggleLog.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnToggleLog.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnToggleLog.Location = new System.Drawing.Point(772, 0);
+            this.btnToggleLog.Location = new System.Drawing.Point(654, 1);
             this.btnToggleLog.Margin = new System.Windows.Forms.Padding(6);
             this.btnToggleLog.Name = "btnToggleLog";
             this.btnToggleLog.Size = new System.Drawing.Size(84, 54);
@@ -163,9 +163,6 @@
             // 
             // PNLcontent
             // 
-            this.PNLcontent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.PNLcontent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(74)))), ((int)(((byte)(74)))), ((int)(((byte)(74)))));
             this.PNLcontent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PNLcontent.Controls.Add(this.panel6);
@@ -173,10 +170,11 @@
             this.PNLcontent.Controls.Add(this.LBLtitle);
             this.PNLcontent.Controls.Add(this.BTNminimise);
             this.PNLcontent.Controls.Add(this.BTNclose);
+            this.PNLcontent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PNLcontent.Location = new System.Drawing.Point(0, 0);
             this.PNLcontent.Margin = new System.Windows.Forms.Padding(6);
             this.PNLcontent.Name = "PNLcontent";
-            this.PNLcontent.Size = new System.Drawing.Size(856, 860);
+            this.PNLcontent.Size = new System.Drawing.Size(738, 867);
             this.PNLcontent.TabIndex = 0;
             this.PNLcontent.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PNLcontent_MouseDown);
             this.PNLcontent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PNLcontent_MouseMove);
@@ -186,7 +184,7 @@
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.label8);
             this.panel6.Controls.Add(this.panel10);
-            this.panel6.Location = new System.Drawing.Point(854, 71);
+            this.panel6.Location = new System.Drawing.Point(734, 71);
             this.panel6.Margin = new System.Windows.Forms.Padding(6);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(516, 714);
@@ -232,15 +230,15 @@
             // PNLlist
             // 
             this.PNLlist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PNLlist.Controls.Add(this.label2);
             this.PNLlist.Controls.Add(this.label5);
             this.PNLlist.Controls.Add(this.label3);
             this.PNLlist.Controls.Add(this.panel3);
-            this.PNLlist.Controls.Add(this.label2);
             this.PNLlist.Controls.Add(this.panel2);
             this.PNLlist.Location = new System.Drawing.Point(20, 71);
             this.PNLlist.Margin = new System.Windows.Forms.Padding(6);
             this.PNLlist.Name = "PNLlist";
-            this.PNLlist.Size = new System.Drawing.Size(810, 712);
+            this.PNLlist.Size = new System.Drawing.Size(691, 712);
             this.PNLlist.TabIndex = 5;
             // 
             // label5
@@ -248,7 +246,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label5.Location = new System.Drawing.Point(404, 258);
+            this.label5.Location = new System.Drawing.Point(353, 258);
             this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 32);
@@ -275,7 +273,7 @@
             this.panel3.Location = new System.Drawing.Point(-2, 292);
             this.panel3.Margin = new System.Windows.Forms.Padding(6);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(810, 417);
+            this.panel3.Size = new System.Drawing.Size(689, 417);
             this.panel3.TabIndex = 8;
             // 
             // panel5
@@ -301,10 +299,10 @@
             this.panel5.Controls.Add(this.chkEUEast);
             this.panel5.Controls.Add(this.chkAsiaSouthEast);
             this.panel5.Controls.Add(this.chkAsiaEast);
-            this.panel5.Location = new System.Drawing.Point(398, -2);
+            this.panel5.Location = new System.Drawing.Point(343, -2);
             this.panel5.Margin = new System.Windows.Forms.Padding(6);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(410, 417);
+            this.panel5.Size = new System.Drawing.Size(344, 417);
             this.panel5.TabIndex = 36;
             // 
             // chkUSNorthWest
@@ -597,7 +595,7 @@
             this.panel4.Location = new System.Drawing.Point(-2, -2);
             this.panel4.Margin = new System.Windows.Forms.Padding(6);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(404, 417);
+            this.panel4.Size = new System.Drawing.Size(345, 417);
             this.panel4.TabIndex = 9;
             // 
             // chkPhoenixLord
@@ -843,7 +841,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label2.Location = new System.Drawing.Point(6, 6);
+            this.label2.Location = new System.Drawing.Point(8, 6);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(318, 32);
@@ -861,18 +859,46 @@
             this.panel2.Controls.Add(this.chkShowOnSpawn);
             this.panel2.Controls.Add(this.chkShowOnDeath);
             this.panel2.Controls.Add(this.label4);
-            this.panel2.Location = new System.Drawing.Point(-2, 40);
+            this.panel2.Location = new System.Drawing.Point(-2, 41);
             this.panel2.Margin = new System.Windows.Forms.Padding(6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(810, 210);
+            this.panel2.Size = new System.Drawing.Size(691, 211);
             this.panel2.TabIndex = 6;
+            // 
+            // numDuration
+            // 
+            this.numDuration.Font = new System.Drawing.Font("Segoe UI", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numDuration.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numDuration.Location = new System.Drawing.Point(292, 15);
+            this.numDuration.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numDuration.Minimum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numDuration.Name = "numDuration";
+            this.numDuration.Size = new System.Drawing.Size(175, 35);
+            this.numDuration.TabIndex = 32;
+            this.numDuration.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
             // 
             // chkSoundCount
             // 
             this.chkSoundCount.AutoSize = true;
             this.chkSoundCount.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkSoundCount.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.chkSoundCount.Location = new System.Drawing.Point(498, 162);
+            this.chkSoundCount.Location = new System.Drawing.Point(458, 166);
             this.chkSoundCount.Margin = new System.Windows.Forms.Padding(6);
             this.chkSoundCount.Name = "chkSoundCount";
             this.chkSoundCount.Size = new System.Drawing.Size(192, 34);
@@ -886,12 +912,12 @@
             this.chkShowOnCount.AutoSize = true;
             this.chkShowOnCount.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkShowOnCount.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.chkShowOnCount.Location = new System.Drawing.Point(20, 125);
+            this.chkShowOnCount.Location = new System.Drawing.Point(20, 129);
             this.chkShowOnCount.Margin = new System.Windows.Forms.Padding(6);
             this.chkShowOnCount.Name = "chkShowOnCount";
-            this.chkShowOnCount.Size = new System.Drawing.Size(649, 34);
+            this.chkShowOnCount.Size = new System.Drawing.Size(505, 34);
             this.chkShowOnCount.TabIndex = 30;
-            this.chkShowOnCount.Text = "Show a notification when Oryx shouts the amount of events left";
+            this.chkShowOnCount.Text = "Show a notification for the amount of events left\r\n";
             this.chkShowOnCount.UseVisualStyleBackColor = true;
             this.chkShowOnCount.CheckedChanged += new System.EventHandler(this.Option_CheckedChanged);
             // 
@@ -900,7 +926,7 @@
             this.chkSoundSpawn.AutoSize = true;
             this.chkSoundSpawn.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkSoundSpawn.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.chkSoundSpawn.Location = new System.Drawing.Point(258, 162);
+            this.chkSoundSpawn.Location = new System.Drawing.Point(235, 166);
             this.chkSoundSpawn.Margin = new System.Windows.Forms.Padding(6);
             this.chkSoundSpawn.Name = "chkSoundSpawn";
             this.chkSoundSpawn.Size = new System.Drawing.Size(199, 34);
@@ -914,7 +940,7 @@
             this.chkSoundDeath.AutoSize = true;
             this.chkSoundDeath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkSoundDeath.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.chkSoundDeath.Location = new System.Drawing.Point(20, 162);
+            this.chkSoundDeath.Location = new System.Drawing.Point(20, 166);
             this.chkSoundDeath.Margin = new System.Windows.Forms.Padding(6);
             this.chkSoundDeath.Name = "chkSoundDeath";
             this.chkSoundDeath.Size = new System.Drawing.Size(193, 34);
@@ -928,7 +954,7 @@
             this.chkShowOnSpawn.AutoSize = true;
             this.chkShowOnSpawn.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkShowOnSpawn.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.chkShowOnSpawn.Location = new System.Drawing.Point(20, 88);
+            this.chkShowOnSpawn.Location = new System.Drawing.Point(20, 92);
             this.chkShowOnSpawn.Margin = new System.Windows.Forms.Padding(6);
             this.chkShowOnSpawn.Name = "chkShowOnSpawn";
             this.chkShowOnSpawn.Size = new System.Drawing.Size(445, 34);
@@ -942,7 +968,7 @@
             this.chkShowOnDeath.AutoSize = true;
             this.chkShowOnDeath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkShowOnDeath.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.chkShowOnDeath.Location = new System.Drawing.Point(20, 52);
+            this.chkShowOnDeath.Location = new System.Drawing.Point(20, 56);
             this.chkShowOnDeath.Margin = new System.Windows.Forms.Padding(6);
             this.chkShowOnDeath.Name = "chkShowOnDeath";
             this.chkShowOnDeath.Size = new System.Drawing.Size(414, 34);
@@ -956,7 +982,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Location = new System.Drawing.Point(16, 13);
+            this.label4.Location = new System.Drawing.Point(16, 16);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(261, 30);
@@ -983,7 +1009,7 @@
             this.BTNminimise.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BTNminimise.Font = new System.Drawing.Font("Lucida Console", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTNminimise.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.BTNminimise.Location = new System.Drawing.Point(758, 8);
+            this.BTNminimise.Location = new System.Drawing.Point(643, 8);
             this.BTNminimise.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.BTNminimise.Name = "BTNminimise";
             this.BTNminimise.Size = new System.Drawing.Size(41, 38);
@@ -1001,7 +1027,7 @@
             this.BTNclose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BTNclose.Font = new System.Drawing.Font("Lucida Console", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTNclose.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.BTNclose.Location = new System.Drawing.Point(806, 8);
+            this.BTNclose.Location = new System.Drawing.Point(691, 8);
             this.BTNclose.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.BTNclose.Name = "BTNclose";
             this.BTNclose.Size = new System.Drawing.Size(41, 38);
@@ -1011,39 +1037,11 @@
             this.BTNclose.MouseLeave += new System.EventHandler(this.LBL_MouseLeave);
             this.BTNclose.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LBL_MouseOver);
             // 
-            // numDuration
-            // 
-            this.numDuration.Font = new System.Drawing.Font("Segoe UI", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numDuration.Increment = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numDuration.Location = new System.Drawing.Point(292, 11);
-            this.numDuration.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numDuration.Minimum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numDuration.Name = "numDuration";
-            this.numDuration.Size = new System.Drawing.Size(175, 35);
-            this.numDuration.TabIndex = 32;
-            this.numDuration.Value = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(860, 869);
+            this.ClientSize = new System.Drawing.Size(740, 869);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

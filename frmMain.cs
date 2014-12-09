@@ -29,7 +29,62 @@ namespace EventNotifier
         public frmMain()
         {
             InitializeComponent();
+            LoadSettings();
+            ShowInfoPage();
+            loading = false;
+        }
 
+        public void ShowInfoPage()
+        {
+            this.SuspendLayout();
+            WebBrowser webStart = new WebBrowser();
+            PNLlist.Controls.Add(webStart);
+            webStart.Visible = false;
+            webStart.ScriptErrorsSuppressed = true;
+            webStart.ScrollBarsEnabled = false;
+            webStart.Dock = DockStyle.Fill;
+            webStart.BringToFront();
+
+            Button btnClose = new Button();
+            this.Controls.Add(btnClose);
+            btnClose.Visible = false;
+            btnClose.Size = new Size(PNLlist.Width - 6, 35);
+            btnClose.Location = new Point(15, PNLlist.Height - 39 + 39);
+            btnClose.FlatAppearance.BorderColor = Color.Gray;
+            btnClose.BackColor = Color.FromArgb(64, 64, 64);
+            btnClose.ForeColor = Color.WhiteSmoke;
+            btnClose.Text = "Close";
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.BringToFront();
+            this.ResumeLayout();
+
+            btnClose.Click += (e, s) =>
+            {
+                PNLlist.Controls.Remove(webStart);
+                this.Controls.Remove(btnClose);
+            };
+            webStart.Navigated += (e, s) =>
+            {
+                webStart.Show();
+                btnClose.Show();
+            };
+            Task.Run(() =>
+            {
+                Thread.Sleep(3000);
+                Interface.ShowNotification(
+                    "Welcome!",
+                    "EventNotifier has started.",
+                    false, "Kronks");
+                _worker = new Thread(Fetch);
+                _worker.IsBackground = true;
+                _worker.Start();
+            });
+            webStart.Navigate("http://www.realmbot.xyz/hello.html");
+        }
+
+        public void LoadSettings()
+        {
+            this.SuspendLayout();
             chkShowOnDeath.Checked = Settings.Default.showOnDeath;
             chkShowOnSpawn.Checked = Settings.Default.showOnSpawn;
             chkShowOnCount.Checked = Settings.Default.showOnCount;
@@ -76,12 +131,7 @@ namespace EventNotifier
             chkUSWest3.Checked = Settings.Default.showUSWest3;
 
             numDuration.Value = Settings.Default.duration;
-
-            _worker = new Thread(Fetch);
-            _worker.IsBackground = true;
-            _worker.Start();
-
-            loading = false;
+            this.ResumeLayout();
         }
 
         private void Fetch()
@@ -93,7 +143,7 @@ namespace EventNotifier
             {
                 try
                 {
-                    string[] events = wc.DownloadString("http://realmbot.xyz/data.json").Split('\n');
+                    string[] events = wc.DownloadString("http://realmbot.xyz/events.json").Split('\n');
 
                     foreach (string e in events)
                     {
@@ -125,7 +175,7 @@ namespace EventNotifier
                     Thread.Sleep(15000);
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(3000);
             }
         }
 
@@ -247,30 +297,28 @@ namespace EventNotifier
             if (!this.Disposing)
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    tbxLog.Text = /*"[" 
-                        + DateTime.Now.ToShortTimeString() + "] "
-                        + */text + "\n" + tbxLog.Text;
+                    tbxLog.Text = text + "\n" + tbxLog.Text;
                 }));
         }
 
         private bool IsEventFiltered(string e)
         {
-            if ((e == "Skull_Shrine" && !Settings.Default.showSkullShrine) ||
-                (e == "Cube_God" && !Settings.Default.showCubeGod) ||
-                (e == "Pentaract" && !Settings.Default.showPentaract) ||
-                (e == "Grand_Sphinx" && !Settings.Default.showGrandSphinx) ||
-                (e == "Avatar" && !Settings.Default.showAvatar) ||
-                (e == "Hermit_God" && !Settings.Default.showHermit) ||
-                (e == "Lord_of_the_Lost_Lands" && !Settings.Default.showLordoftheLostLands) ||
-                (e == "Ghost_Ship" && !Settings.Default.showGhostShip) ||
-                (e == "Rock_Dragon" && !Settings.Default.showRockDragon) ||
-                (e == "Red_Demon" && !Settings.Default.showRedDemon) ||
-                (e == "Ent_Ancient" && !Settings.Default.showEntAncient) ||
-                (e == "Ghost_King" && !Settings.Default.showGhostKing) ||
-                (e == "Cyclops_God" && !Settings.Default.showCyclopsGod) ||
-                (e == "Oasis_Giant" && !Settings.Default.showOasisGiant) ||
-                (e == "Phoenix_Lord" && !Settings.Default.showPhoenixLord) ||
-                (e == "Lich" && !Settings.Default.showLastLich))
+            if ((e.Contains("Skull_Shrine") && !Settings.Default.showSkullShrine) ||
+                (e.Contains("Cube_God") && !Settings.Default.showCubeGod) ||
+                (e.Contains("Pentaract") && !Settings.Default.showPentaract) ||
+                (e.Contains("Grand_Sphinx") && !Settings.Default.showGrandSphinx) ||
+                (e.Contains("shtrs") && !Settings.Default.showAvatar) ||
+                (e.Contains("Hermit_God") && !Settings.Default.showHermit) ||
+                (e.Contains("Lord_of_the_Lost_Lands") && !Settings.Default.showLordoftheLostLands) ||
+                (e.Contains("Ghost_Ship") && !Settings.Default.showGhostShip) ||
+                (e.Contains("Rock_Dragon") && !Settings.Default.showRockDragon) ||
+                (e.Contains("Red_Demon") && !Settings.Default.showRedDemon) ||
+                (e.Contains("Ent_Ancient") && !Settings.Default.showEntAncient) ||
+                (e.Contains("Ghost_King") && !Settings.Default.showGhostKing) ||
+                (e.Contains("Cyclops_God") && !Settings.Default.showCyclopsGod) ||
+                (e.Contains("Oasis_Giant") && !Settings.Default.showOasisGiant) ||
+                (e.Contains("Phoenix_Lord") && !Settings.Default.showPhoenixLord) ||
+                (e.Contains("Lich") && !Settings.Default.showLastLich))
                 return true;
             return false;
         }
@@ -346,9 +394,9 @@ namespace EventNotifier
         private void btnToggleLog_Click(object sender, EventArgs e)
         {
             if (this.Width < 450)
-                this.Width = 700;
+                this.Width = 640;
             else
-                this.Width = 430;
+                this.Width = 370;
         }
     }
 }
