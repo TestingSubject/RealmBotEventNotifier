@@ -32,6 +32,28 @@ namespace EventNotifier
             LoadSettings();
             ShowInfoPage();
             loading = false;
+
+            Task.Run(() =>
+            {
+                Console.WriteLine("Now polling http://kronks.me/eventnotifierv1.1.txt to check the state of the app.");
+                Console.WriteLine("This is to ensure that users know if the software is out of date,");
+                Console.WriteLine("Or if it has been temporarily disabled to stop server flooding.");
+                string result = new WebClient().DownloadString(
+                    "http://kronks.me/eventnotifierv1.1.txt");
+                if (result.ToLower().Contains("out of date"))
+                {
+                    MessageBox.Show("This program is out of date and will now close.");
+                    Application.Exit();
+                }
+                else if (result.ToLower().Contains("disabled"))
+                {
+                    MessageBox.Show("This program has been disabled for the moment." +
+                                    "This is either because RealmBay is experiencing issues" +
+                                    "or because the servers are being overloaded.\n" +
+                                    "Please check back later!", "Event Notifer");
+                    Application.Exit();
+                }
+            });
         }
 
         public void ShowInfoPage()
