@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EventNotifier
 {
     //Class that will hold the serialized output of a json line from the server
-    class JEvent
+    public class JEvent
     {
         public double time;
         public string server;

@@ -15,45 +15,111 @@ using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Media;
+using System.Net.Sockets;
 
 namespace EventNotifier
 {
     public partial class frmMain : Form
     {
+        enum Packets : int
+        {
+            WELCOME = 0,
+            EVENT = 1
+        }
         bool loading = true;
-
-        List<double> knownEvents = new List<double>();
-
-        Thread _worker;
+        TcpClient _client;
 
         public frmMain()
         {
             InitializeComponent();
             LoadSettings();
             ShowInfoPage();
-            loading = false;
 
-            Task.Run(() =>
+            _client = new TcpClient();
+            _client.BeginConnect(
+                IPAddress.Parse("178.62.186.72"),
+                7565, ConnectCallback, _client);
+
+            loading = false;
+        }
+
+        void Reconnect()
+        {
+            _client.Close();
+            _client = new TcpClient();
+            _client.BeginConnect(
+                IPAddress.Parse("178.62.186.72"),
+                7565, ConnectCallback, _client);
+        }
+
+        private void ConnectCallback(IAsyncResult ar)
+        {
+            try
             {
-                Console.WriteLine("Now polling http://kronks.me/eventnotifierv1.1.txt to check the state of the app.");
-                Console.WriteLine("This is to ensure that users know if the software is out of date,");
-                Console.WriteLine("Or if it has been temporarily disabled to stop server flooding.");
-                string result = new WebClient().DownloadString(
-                    "http://kronks.me/eventnotifierv1.1.txt");
-                if (result.ToLower().Contains("out of date"))
+                _client.EndConnect(ar);
+                NetworkStream ns = _client.GetStream();
+                byte[] buffer = new byte[_client.ReceiveBufferSize];
+                ns.BeginRead(
+                    buffer, 0, buffer.Length,
+                    ReadCallback, buffer);
+                Log("Connected to RealmBot!");
+            }
+            catch
+            {
+                Log("Connect failed, retrying.");
+                Reconnect();
+            }
+        }
+
+        private void ReadCallback(IAsyncResult ar)
+        {
+            NetworkStream ns = _client.GetStream();
+            byte[] buffer = (byte[])ar.AsyncState;
+
+            try
+            {
+                int read = ns.EndRead(ar);
+
+                if (read > 0)
                 {
-                    MessageBox.Show("This program is out of date and will now close.");
-                    Application.Exit();
+                    //Log("\nRead " + read + " bytes.");
+                    int id = BitConverter.ToInt16(buffer, 0);
+                    string msg = Encoding.ASCII.GetString(buffer, 3, read - 3);
+                    msg = msg.Replace("\r", "").Replace("\n", "");
+
+                    if (id == (int)Packets.EVENT)
+                    {
+                        JEvent data = JsonConvert.DeserializeObject<JEvent>(msg);
+                        if (msg.Contains("tokens"))
+                        {
+                            string tokenData = msg.Split(new string[] { "\"tokens\":" }, StringSplitOptions.None)[1];
+                            tokenData = "[" + tokenData.Remove(tokenData.Length - 1) + "]";
+                            JArray tokens = JArray.Parse(tokenData);
+
+                            foreach (JObject o in tokens.Children<JObject>())
+                                foreach (JProperty p in o.Properties())
+                                    data.tokens[p.Name] = p.Value.ToString();
+                        }
+
+                        Log(data.key.Replace("stringlist", "")
+                            .Replace(".", " ")
+                            .Replace("0", "")
+                            .Replace("1", "")
+                            + " " + data.server + " " + data.realm);
+
+                        Interface.ShowUpdate(data);
+                    }
                 }
-                else if (result.ToLower().Contains("disabled"))
-                {
-                    MessageBox.Show("This program has been disabled for the moment." +
-                                    "This is either because RealmBay is experiencing issues" +
-                                    "or because the servers are being overloaded.\n" +
-                                    "Please check back later!", "Event Notifer");
-                    Application.Exit();
-                }
-            });
+
+                buffer = new byte[buffer.Length];
+                //Log("trying to read more");
+                ns.BeginRead(buffer, 0, buffer.Length, ReadCallback, buffer);
+            }
+            catch 
+            { 
+                Log("Reading data from RealmBot failed! Disconnecting.");
+                Reconnect();
+            }
         }
 
         public void ShowInfoPage()
@@ -87,20 +153,12 @@ namespace EventNotifier
             };
             webStart.Navigated += (e, s) =>
             {
-                webStart.Show();
-                btnClose.Show();
+                if (!webStart.Document.ToString().ToLower().Contains("checking your"))
+                {
+                    webStart.Show();
+                    btnClose.Show();
+                }
             };
-            Task.Run(() =>
-            {
-                Thread.Sleep(3000);
-                Interface.ShowNotification(
-                    "Welcome!",
-                    "EventNotifier has started.",
-                    false, "Kronks");
-                _worker = new Thread(Fetch);
-                _worker.IsBackground = true;
-                _worker.Start();
-            });
             webStart.Navigate("http://www.realmbot.xyz/hello.html");
         }
 
@@ -154,51 +212,6 @@ namespace EventNotifier
 
             numDuration.Value = Settings.Default.duration;
             this.ResumeLayout();
-        }
-
-        private void Fetch()
-        {
-            Log("Welcome!");
-            WebClient wc = new WebClient();
-
-            while (!this.Disposing)
-            {
-                try
-                {
-                    string[] events = wc.DownloadString("http://realmbot.xyz/events.json").Split('\n');
-
-                    foreach (string e in events)
-                    {
-                        if (e.Length < 10)
-                            continue;
-
-                        JEvent data = JsonConvert.DeserializeObject<JEvent>(e);
-                        if (e.Contains("tokens"))
-                        {
-                            string tokenData = e.Split(new string[] { "\"tokens\":" }, StringSplitOptions.None)[1];
-                            tokenData = "[" + tokenData.Remove(tokenData.Length - 1) + "]";
-                            JArray tokens = JArray.Parse(tokenData);
-
-                            foreach (JObject o in tokens.Children<JObject>())
-                                foreach (JProperty p in o.Properties())
-                                    data.tokens[p.Name] = p.Value.ToString();
-                        }
-
-                        if (!knownEvents.Contains(data.time))
-                        {
-                            knownEvents.Add(data.time);
-                            ShowUpdate(data);
-                        }
-                    }
-                }
-                catch
-                {
-                    Interface.ShowNotification("Connection failed!", "We couldn't connect to\nRealmBot. Waiting a bit...", false, "Kronks");
-                    Thread.Sleep(15000);
-                }
-
-                Thread.Sleep(3000);
-            }
         }
 
         private void Option_CheckedChanged(object sender, EventArgs e)
@@ -261,59 +274,6 @@ namespace EventNotifier
             Settings.Default.Save();
         }
 
-        private void ShowUpdate(JEvent data)
-        {
-            if (IsServerFiltered(data.server) || IsEventFiltered(data.key))
-                return;
-
-            Log(data.key.Replace("stringlist", "")
-                .Replace(".", " ")
-                .Replace("0", "")
-                .Replace("1", "") 
-                + " " + data.server + " " + data.realm);
-
-            string monster = data.key.Split('.')[1].Split('.')[0]
-                .Replace("Dragon_Head_Leader", "Rock_Dragon")
-                .Replace("shtrs_Defense_System", "Avatar");
-            if ((data.key.Contains("killed") || data.key.Contains("death"))
-                && Settings.Default.showOnDeath)
-            {
-                if (Settings.Default.playSoundDeath)
-                    new SoundPlayer().Play();
-                Interface.ShowNotification(
-                    monster.Replace("_", " "),
-                    "was killed in\n" + data.server + " " + data.realm,
-                    false, monster); //FALSE FOR NOW
-            }
-            else if (data.key.Contains("new") && Settings.Default.showOnSpawn)
-            {
-                if (Settings.Default.playSoundSpawn)
-                    new SoundPlayer().Play();
-                Interface.ShowNotification(
-                    monster.Replace("_", " "),
-                    "has spawned in\n" + data.server + " " + data.realm,
-                    false, monster);
-            }
-            else if (data.key.Contains("many") && Settings.Default.showOnCount)
-            {
-                if (Settings.Default.soundOnCount)
-                    new SoundPlayer().Play();
-                Interface.ShowNotification(
-                    data.tokens["COUNT"] + " " + monster.Replace("_", " ") + "s",
-                    "left in\n" + data.server + " " + data.realm,
-                    false, monster);
-            }
-            else if (data.key.Contains("one") && Settings.Default.showOnCount)
-            {
-                if (Settings.Default.soundOnCount)
-                    new SoundPlayer().Play();
-                Interface.ShowNotification(
-                    "One " + monster.Replace("_", " "),
-                    "left in\n" + data.server + " " + data.realm,
-                    false, monster);
-            }
-        }
-
         private void Log(string text)
         {
             if (!this.Disposing)
@@ -323,62 +283,16 @@ namespace EventNotifier
                 }));
         }
 
-        private bool IsEventFiltered(string e)
-        {
-            if ((e.Contains("Skull_Shrine") && !Settings.Default.showSkullShrine) ||
-                (e.Contains("Cube_God") && !Settings.Default.showCubeGod) ||
-                (e.Contains("Pentaract") && !Settings.Default.showPentaract) ||
-                (e.Contains("Grand_Sphinx") && !Settings.Default.showGrandSphinx) ||
-                (e.Contains("shtrs") && !Settings.Default.showAvatar) ||
-                (e.Contains("Hermit_God") && !Settings.Default.showHermit) ||
-                (e.Contains("Lord_of_the_Lost_Lands") && !Settings.Default.showLordoftheLostLands) ||
-                (e.Contains("Ghost_Ship") && !Settings.Default.showGhostShip) ||
-                (e.Contains("Rock_Dragon") && !Settings.Default.showRockDragon) ||
-                (e.Contains("Red_Demon") && !Settings.Default.showRedDemon) ||
-                (e.Contains("Ent_Ancient") && !Settings.Default.showEntAncient) ||
-                (e.Contains("Ghost_King") && !Settings.Default.showGhostKing) ||
-                (e.Contains("Cyclops_God") && !Settings.Default.showCyclopsGod) ||
-                (e.Contains("Oasis_Giant") && !Settings.Default.showOasisGiant) ||
-                (e.Contains("Phoenix_Lord") && !Settings.Default.showPhoenixLord) ||
-                (e.Contains("Lich") && !Settings.Default.showLastLich))
-                return true;
-            return false;
-        }
-
-        private bool IsServerFiltered(string server)
-        {
-            if ((server == "AsiaEast" && !Settings.Default.showAsiaEast) ||
-                (server == "AsiaSouthEast" && !Settings.Default.showAsiaSouthEast) ||
-                (server == "EUEast" && !Settings.Default.showEUEast) ||
-                (server == "EUNorth" && !Settings.Default.showEUNorth) ||
-                (server == "EUSouthWest" && !Settings.Default.showUSSouthWest) ||
-                (server == "EUWest" && !Settings.Default.showEUWest) ||
-                (server == "USEast" && !Settings.Default.showUSEast) ||
-                (server == "USEast2" && !Settings.Default.showUSEast2) ||
-                (server == "USEast3" && !Settings.Default.showUSEast3) ||
-                (server == "USMidWest" && !Settings.Default.showUSMidWest) ||
-                (server == "USMidWest2" && !Settings.Default.showUSMidWest2) ||
-                (server == "USSouth" && !Settings.Default.showUSSouth) ||
-                (server == "USSouth2" && !Settings.Default.showUSSouth2) ||
-                (server == "USSouth3" && !Settings.Default.showUSSouth3) ||
-                (server == "USSouthWest" && !Settings.Default.showUSSouthWest) ||
-                (server == "USWest" && !Settings.Default.showUSWest) ||
-                (server == "USWest2" && !Settings.Default.showUSWest2) ||
-                (server == "USWest3" && !Settings.Default.showUSWest3))
-                return true;
-            return false;
-        }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             Animation.AnimateWindow(this.Handle, 300, Animation.AnimateWindowFlags.AW_HOR_POSITIVE);
             PNLfooter.Refresh();
         }
 
-        public Point mouseLocation;
+        private Point _mouseLocation;
         private void PNLcontent_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseLocation = new Point(-e.X, -e.Y);
+            _mouseLocation = new Point(-e.X, -e.Y);
         }
 
         private void PNLcontent_MouseMove(object sender, MouseEventArgs e)
@@ -386,7 +300,7 @@ namespace EventNotifier
             if (e.Button == MouseButtons.Left)
             {
                 Point mousePos = Control.MousePosition;
-                mousePos.Offset(mouseLocation.X, mouseLocation.Y);
+                mousePos.Offset(_mouseLocation.X, _mouseLocation.Y);
                 Location = new Point(mousePos.X, mousePos.Y);
             }
         }
